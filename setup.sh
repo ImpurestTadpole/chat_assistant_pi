@@ -1,12 +1,30 @@
+#!/bin/bash
+
+# System dependencies
+sudo apt-get update && sudo apt-get install -y \
+    python3-tk \
+    python3-venv \
+    libopenblas-dev
+
+# Create virtual environment
+python3 -m venv ai-env
+source ai-env/bin/activate
+
+# Install Python packages
+pip install --upgrade pip
+pip install torch transformers accelerate bitsandbytes \
+    --extra-index-url https://download.pytorch.org/whl/cpu \
+    --break-system-packages
+
+# Cleanup
+sudo apt-get autoremove -y
+
 # Update these paths at the top
-USER_HOME="/home/$(logname)"
-PROJECT_DIR="${USER_HOME}/chat_assistant_pi"
+PROJECT_DIR="/home/owen/chat_assistant_pi"
 VENV_DIR="${PROJECT_DIR}/ai-env"
 
 # Install system dependencies
 sudo apt-get update && sudo apt-get install -y \
-    portaudio19-dev \
-    libportaudio2 \
     libatlas-base-dev \
     ffmpeg \
     libasound2-dev \
@@ -25,7 +43,6 @@ source "${VENV_DIR}/bin/activate"
 # Install Python packages
 pip install --upgrade pip
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu --break-system-packages
-pip install pyaudio
 pip install transformers datasets sounddevice scipy sentencepiece deepseek-api
 pip install bitsandbytes
 pip install RPi.GPIO

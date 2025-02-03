@@ -3,9 +3,8 @@
 A voice-enabled AI assistant with hardware/software interface options, powered by DeepSeek's Janus-Pro-1B model.
 
 ## Features
-- 🎙️ Voice input via microphone
+- 📝 Text input/output only
 - 🤖 Multi-modal AI responses
-- 🎧 Text-to-speech output
 - 🖥️ GUI and hardware button interfaces
 - 🔌 Auto-start service configuration
 
@@ -19,8 +18,8 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 
 ### 1. Clone Repository (Using SSH)
 ```bash
-git clone git@github.com:ImpurestTadpole/chat_assistant_pi.git
-cd ~/chat_assistant_pi
+git clone git@github.com:yourusername/pi-ai-assistant.git
+cd pi-ai-assistant
 ```
 
 ### 2. Prepare Setup Script
