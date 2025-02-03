@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+import torch
 
 class ChatAssistant:
     def __init__(self, root):
@@ -9,10 +10,19 @@ class ChatAssistant:
         
         # Initialize AI model
         self.tokenizer = AutoTokenizer.from_pretrained("deepseek-ai/Janus-Pro-1B")
+        
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_use_double_quant=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.bfloat16
+        )
+        
         self.model = AutoModelForCausalLM.from_pretrained(
             "deepseek-ai/Janus-Pro-1B",
             device_map="auto",
-            load_in_8bit=True
+            quantization_config=quantization_config,
+            trust_remote_code=True
         )
         
         self.create_widgets()

@@ -12,7 +12,7 @@ source ai-env/bin/activate
 
 # Install Python packages
 pip install --upgrade pip
-pip install torch transformers accelerate bitsandbytes \
+pip install torch transformers>=4.40 accelerate bitsandbytes \
     --extra-index-url https://download.pytorch.org/whl/cpu \
     --break-system-packages
 
