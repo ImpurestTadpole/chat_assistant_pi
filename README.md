@@ -21,7 +21,7 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 ```bash
 # Clone repository
 git clone https://github.com/yourusername/pi-ai-assistant.git
-cd pi-ai-assistant
+cd chat_assistant_pi
 
 # Run automated setup (takes 15-30 minutes)
 bash <(curl -sL https://raw.githubusercontent.com/yourusername/pi-ai-assistant/main/setup.sh)
