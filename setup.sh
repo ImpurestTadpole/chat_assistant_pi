@@ -13,8 +13,8 @@ sudo apt-get update && sudo apt-get install -y \
     libopenblas-dev \
     python3-full
 
-# Create virtual environment
-python3 -m venv ai-env
+# Create virtual environment with specific Python version
+python3.10 -m venv ai-env
 source ai-env/bin/activate
 
 # Install Python packages
@@ -48,4 +48,17 @@ sudo systemctl enable ai-assistant.service
 # Optimize memory limits
 echo "vm.overcommit_memory = 1" | sudo tee -a /etc/sysctl.conf
 echo "vm.min_free_kbytes = 65536" | sudo tee -a /etc/sysctl.conf
+
+# Install remaining dependencies manually
+pip install \
+    transformers==4.48.2 \
+    datasets==3.2.0 \
+    scipy==1.15.1 \
+    sentencepiece==0.2.0 \
+    --break-system-packages
+
+# Add explicit sounddevice install
+pip install \
+    sounddevice \
+    --break-system-packages
 
