@@ -10,7 +10,8 @@ sudo apt-get update && sudo apt-get install -y \
     python3-rpi.gpio \
     python3-tk \
     python3-venv \
-    libopenblas-dev  # For optimized math operations
+    libopenblas-dev \
+    python3-full
 
 # Create virtual environment
 python3 -m venv ai-env
@@ -18,7 +19,7 @@ source ai-env/bin/activate
 
 # Install Python packages
 pip install --upgrade pip
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu --break-system-packages
 pip install pyaudio
 pip install transformers datasets sounddevice scipy sentencepiece deepseek-api
 pip install bitsandbytes
