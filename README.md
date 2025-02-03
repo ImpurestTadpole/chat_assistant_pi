@@ -18,8 +18,29 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 ## Installation
 
 ### 1. System Setup
+```bash
+# Clone repository
+git clone https://github.com/yourusername/pi-ai-assistant.git
+cd pi-ai-assistant
+
+# Install dependencies and setup environment
+chmod +x setup.sh
+./setup.sh
+
+# Reboot after installation
+sudo reboot
+```
 
 ### 2. Hardware Setup (Optional)
+```text
+Button Connection:
+- Button leg 1 → GPIO17
+- Button leg 2 → GND
+
+LED Connection:
+- LED anode (long leg) → 330Ω resistor → GPIO18
+- LED cathode (short leg) → GND
+```
 
 ## Configuration
 
@@ -88,18 +109,24 @@ python app.py
    sudo reboot
    ```
 
-## Customization
+## Final Setup Steps
+1. Enable SPI and I2C interfaces:
+   ```bash
+   sudo raspi-config
+   # -> Interface Options -> Enable SPI/I2C
+   ```
 
-### Model Parameters
-Adjust in `app.py`:
-```python
-outputs = self.model.generate(
-    **inputs,
-    max_new_tokens=150,  # Response length
-    temperature=0.7,     # Creativity (0-1)
-    top_p=0.9,           # Response diversity
-)
-```
+2. Increase swap space for model loading:
+   ```bash
+   sudo nano /etc/dphys-swapfile
+   # Change CONF_SWAPSIZE=2048
+   sudo systemctl restart dphys-swapfile
+   ```
+
+3. Verify audio routing:
+   ```bash
+   alsamixer  # Press F6 to select correct sound card
+   ```
 
 ## License
 MIT License - See [LICENSE](LICENSE) for details
