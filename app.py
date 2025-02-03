@@ -22,7 +22,9 @@ class ChatAssistant:
             "deepseek-ai/Janus-Pro-1B",
             device_map="auto",
             quantization_config=quantization_config,
-            trust_remote_code=True
+            trust_remote_code=True,
+            use_cache=True,
+            revision="main"
         )
         
         self.create_widgets()
