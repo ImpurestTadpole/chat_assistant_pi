@@ -5,6 +5,9 @@ from transformers import pipeline, AutoModelForCausalLM, AutoTokenizer, MultiMod
 import threading
 import tkinter as tk
 from tkinter import ttk
+import torch
+import psutil
+import time
 
 # Configuration
 FS = 16000  # Sample rate
@@ -102,10 +105,14 @@ class PiAssistant:
             device_map="auto"
         )
 
+        # Add to PiAssistant __init__
+        torch.set_flush_denormal(True)
+        torch.backends.optimized = True
+
     def setup_hardware(self):
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(LED_PIN, GPIO.OUTUT)
+        GPIO.setup(LED_PIN, GPIO.OUT)
 
     def record_audio(self):
         print("Recording...")
@@ -136,6 +143,12 @@ class PiAssistant:
     def run(self):
         print("Ready - Press button to speak")
         while True:
+            temp = psutil.sensors_temperatures()['cpu_thermal'][0].current
+            if temp > 75:  # Celsius
+                print(f"High temperature warning: {temp}°C")
+                self.play_response("System temperature critical, cooling down")
+                time.sleep(30)
+            
             # Wait for button press
             GPIO.wait_for_edge(BUTTON_PIN, GPIO.FALLING)
             GPIO.output(LED_PIN, True)

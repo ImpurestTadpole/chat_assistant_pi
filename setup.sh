@@ -9,7 +9,8 @@ sudo apt-get update && sudo apt-get install -y \
     sox \
     python3-rpi.gpio \
     python3-tk \
-    python3-venv
+    python3-venv \
+    libopenblas-dev  # For optimized math operations
 
 # Create virtual environment
 python3 -m venv ai-env
@@ -42,4 +43,8 @@ python app.py
 
 sudo systemctl daemon-reload
 sudo systemctl enable ai-assistant.service
+
+# Optimize memory limits
+echo "vm.overcommit_memory = 1" | sudo tee -a /etc/sysctl.conf
+echo "vm.min_free_kbytes = 65536" | sudo tee -a /etc/sysctl.conf
 
