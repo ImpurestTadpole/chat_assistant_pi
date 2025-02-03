@@ -17,19 +17,54 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 
 ## Installation
 
-### 1. System Setup
+### 1. Clone Repository (Using SSH)
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/pi-ai-assistant.git
-cd chat_assistant_pi
-
-# Run automated setup (takes 15-30 minutes)
-bash <(curl -sL https://raw.githubusercontent.com/yourusername/pi-ai-assistant/main/setup.sh)
-
-# OR if you have the setup.sh locally:
-chmod +x setup.sh
-./setup.sh
+git clone git@github.com:yourusername/pi-ai-assistant.git
+cd pi-ai-assistant
 ```
+
+### 2. Prepare Setup Script
+```bash
+# Install line ending converter
+sudo apt-get install dos2unix -y
+
+# Fix file formatting
+dos2unix setup.sh
+chmod +x setup.sh
+```
+
+### 3. Run Installation
+```bash
+# Install dependencies (run with sudo)
+./setup.sh
+
+# If Python environment fails, create manually
+python3 -m venv ai-env
+source ai-env/bin/activate
+```
+
+### 4. Post-Installation Checks
+```bash
+# Run validation tests
+python tests/validate_setup.py
+
+# Start service manually
+sudo systemctl daemon-reload
+sudo systemctl start ai-assistant
+```
+
+### Important Notes
+- Replace `yourusername` in clone URL with your actual GitHub username
+- For GitHub authentication issues:
+  1. [Create personal access token](https://github.com/settings/tokens)
+  2. Use token as password in HTTPS clone:
+  ```bash
+  git clone https://yourusername:your_token@github.com/yourusername/pi-ai-assistant.git
+  ```
+- If seeing `--break-system-packages` errors, append to pip commands:
+  ```bash
+  pip install package_name --break-system-packages
+  ```
 
 ### 2. Hardware Setup (Optional)
 ```text
