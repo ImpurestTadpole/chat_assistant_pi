@@ -1,0 +1,6 @@
+[Service]
+ExecStart=/home/pi/ai-env/bin/python /home/pi/app.py
+Environment="LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1"
+WorkingDirectory=/home/pi/
+Restart=always
+User=pi 
