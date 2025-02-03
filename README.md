@@ -19,8 +19,8 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 
 ### 1. Clone Repository (Using SSH)
 ```bash
-git clone git@github.com:yourusername/chat_assistant_pi.git
-cd chat_assistant_pi
+git clone git@github.com:ImpurestTadpole/chat_assistant_pi.git
+cd ~/chat_assistant_pi
 ```
 
 ### 2. Prepare Setup Script
