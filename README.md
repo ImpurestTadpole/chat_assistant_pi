@@ -20,7 +20,7 @@ A voice-enabled AI assistant with hardware/software interface options, powered b
 ### 1. Clone Repository (Using SSH)
 ```bash
 git clone git@github.com:yourusername/pi-ai-assistant.git
-cd chat_assistant_pi
+cd pi-ai-assistant
 ```
 
 ### 2. Prepare Setup Script
@@ -133,6 +133,61 @@ python app.py
 | Storage         | 8GB+ free space                      |
 
 ## Troubleshooting
+
+### PortAudio Library Issues
+```bash
+# 1. Reinstall core audio dependencies
+sudo apt-get install --reinstall -y \
+    libportaudio2 \
+    portaudio19-dev \
+    pulseaudio
+
+# 2. Configure library paths
+sudo ldconfig
+pulseaudio --start
+
+# 3. Rebuild Python audio components
+source ai-env/bin/activate
+pip uninstall -y sounddevice pyaudio
+pip install --no-binary sounddevice sounddevice pyaudio --break-system-packages
+
+# 4. Verify installation
+python -c "import sounddevice as sd; print('PortAudio version:', sd.get_portaudio_version())"
+
+# 5. Update systemd service configuration
+sudo tee /etc/systemd/system/ai-assistant.service <<EOF
+[Unit]
+Description=AI Assistant Service
+After=network.target
+
+[Service]
+Environment="LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1"
+Environment="LD_LIBRARY_PATH=/usr/lib/arm-linux-gnueabihf"
+ExecStart=${VENV_DIR}/bin/python ${PROJECT_DIR}/app.py
+WorkingDirectory=${PROJECT_DIR}
+User=$(whoami)
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# 6. Apply changes
+sudo systemctl daemon-reload
+sudo systemctl restart ai-assistant
+```
+
+### Verification Commands
+```bash
+# Check library locations
+ldconfig -p | grep libportaudio
+
+# Test audio stack
+python -c "import sounddevice as sd; print('Devices:', sd.query_devices())"
+
+# Check service status
+systemctl status ai-assistant --lines=100
+```
 
 ### Common Issues
 1. **Audio Not Working**
